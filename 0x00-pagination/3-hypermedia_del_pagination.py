@@ -41,19 +41,22 @@ class Server:
 
     def get_hyper_index(self, index: int = None, page_size: int = 10) -> Dict: # type: ignore
         """ return a dictionary containing key-value pairs """
-        assert type(index) is int and type(page_size) is int
-        assert 0 <= index < len(self.__dataset)
+        assert type(index) == int
+        assert type(page_size) == int
+        csv = self.indexed_dataset()
+        csv_size = len(csv)
+        assert 0 <= index < csv_size
         data = []
-        next_index = index
+        _next = index
         for _ in range(page_size):
-            while not self.__indexed_dataset.get(next_index):
-                next_index += 1
-            data.append(self.__indexed_dataset[next_index])
-            next_index += 1
+            while not csv.get(_next):
+                _next += 1
+            data.append(csv.get(_next))
+            _next += 1
         return {
-            'index': index,
-            'data': data,
-            'page_size': len(data),
-            'next_index': next_index
+            "index": index,
+            "data": data,
+            "page_size": page_size,
+            "next_index": _next
         }
     
