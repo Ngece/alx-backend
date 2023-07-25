@@ -3,7 +3,7 @@
 
 from base_caching import BaseCaching
 
-class BasicCache():
+class BasicCache(BaseCaching):
     """ A caching system doesn’t have limit"""
     def __init__(self):
         """ Initiliaze
