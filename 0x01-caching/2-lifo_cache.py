@@ -9,6 +9,7 @@ class LIFOCache(BaseCaching):
         """
         super().__init__()
         self.queue = []
+        self.cache_data = {}
 
     def put(self, key, item):
         """ Add an item in the cache
