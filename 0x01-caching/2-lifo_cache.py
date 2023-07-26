@@ -5,30 +5,19 @@ from base_caching import BaseCaching
 
 class LIFOCache(BaseCaching):
     def __init__(self):
-        """ Initiliaze
-        """
+        """ Initialize class instance. """
         super().__init__()
-        self.queue = []
-        self.cache_data = {}
 
     def put(self, key, item):
-        """ Add an item in the cache
-        """
-        if key is None or item is None:
-            pass
-        else:
-            if len(self.cache_data) >= self.MAX_ITEMS:
-                if key not in self.cache_data.keys():
-                    discard = self.queue.pop()
-                    del self.cache_data[discard]
-                    print("DISCARD: {}".format(discard))
-            self.queue.append(key)
+        """ Add an item in the cache """
+        if key and item:
             self.cache_data[key] = item
+        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
+            self.cache_data.pop(self.last_item)
+            print('DISCARD:', self.last_item)
+        if key:
+            self.last_item = key
 
     def get(self, key):
-        """ Get an item by key
-        """
-        if key is None or key not in self.cache_data.keys():
-            return None
-        else:
-            return self.cache_data[key] 
+        """ Get an item by key """
+        return self.cache_data.get(key)
